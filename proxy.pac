@@ -3,13 +3,13 @@ var PROXY_SERVER = "PROXY 192.168.123.21:10003; DIRECT";
 function FindProxyForURL(url, host) {
     host = host.toLowerCase();
 
-    // Danh sách domain đi qua proxy
+    // Danh sách domain đi qua proxy (bao gồm domain gốc và subdomain)
     var targetDomains = [
         "exness.com",
         "xvideos.com",
         "pornhub.com",
-        "speedtest.com",
-        "ifconfig.me"
+        "ifconfig.me",
+        "speedtest.net"
     ];
 
     for (var i = 0; i < targetDomains.length; i++) {
@@ -19,5 +19,6 @@ function FindProxyForURL(url, host) {
         }
     }
 
+    // Các trang web còn lại đi trực tiếp
     return "DIRECT";
 }

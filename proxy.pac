@@ -8,6 +8,7 @@ function FindProxyForURL(url, host) {
         "exness.com",
         "xvideos.com",
         "pornhub.com",
+        "speedtest.com",
         "ifconfig.me"
     ];
 

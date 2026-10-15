@@ -1,4 +1,4 @@
-var PROXY_SERVER = "PROXY 192.168.123.21:10003; DIRECT";
+var PROXY_SERVER = "PROXY 192.168.123.21:10001; DIRECT";
 
 function FindProxyForURL(url, host) {
     host = host.toLowerCase();

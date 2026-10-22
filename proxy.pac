@@ -1,24 +1,29 @@
-var PROXY_SERVER = "PROXY 192.168.123.21:10001; DIRECT";
-
-function FindProxyForURL(url, host) {
-    host = host.toLowerCase();
-
-    // Danh sách domain đi qua proxy (bao gồm domain gốc và subdomain)
-    var targetDomains = [
-        "exness.com",
-        "xvideos.com",
-        "pornhub.com",
-        "ifconfig.me",
-        "speedtest.net"
-    ];
-
-    for (var i = 0; i < targetDomains.length; i++) {
-        var domain = targetDomains[i];
-        if (host === domain || dnsDomainIs(host, "." + domain)) {
-            return PROXY_SERVER;
-        }
+var FindProxyForURL = function(init, profiles) {
+    return function(url, host) {
+        "use strict";
+        var result = init, scheme = url.substr(0, url.indexOf(":"));
+        do {
+            result = profiles[result];
+            if (typeof result === "function") result = result(url, host, scheme);
+        } while (typeof result !== "string" || result.charCodeAt(0) === 43);
+        return result;
+    };
+}("+auto switch", {
+    "+auto switch": function(url, host, scheme) {
+        "use strict";
+        if (/(?:^|\.)exness\.help$/.test(host)) return "+proxy";
+        if (/(?:^|\.)speedtest\.net$/.test(host)) return "+proxy";
+        if (/(?:^|\.)exness\.com$/.test(host)) return "+proxy";
+        if (/^xvideos\.com$/.test(host)) return "+proxy";
+        if (/(?:^|\.)xvideos\.com$/.test(host)) return "+proxy";
+        if (/^pornhub\.com$/.test(host)) return "+proxy";
+        if (/(?:^|\.)pornhub\.com$/.test(host)) return "+proxy";
+        if (/^ifconfig\.me$/.test(host)) return "+proxy";
+        return "DIRECT";
+    },
+    "+proxy": function(url, host, scheme) {
+        "use strict";
+        if (/^127\.0\.0\.1$/.test(host) || /^::1$/.test(host) || /^localhost$/.test(host)) return "DIRECT";
+        return "PROXY 192.168.123.21:10001";
     }
-
-    // Các trang web còn lại đi trực tiếp
-    return "DIRECT";
-}
+});

@@ -11,8 +11,9 @@ var FindProxyForURL = function(init, profiles) {
 }("+auto switch", {
     "+auto switch": function(url, host, scheme) {
         "use strict";
+        if (/(?:^|\.)alicdn\.com$/.test(host)) return "+proxy";
+        if (/(?:^|\.)qwen\.ai$/.test(host)) return "+proxy";
         if (/(?:^|\.)exness\.help$/.test(host)) return "+proxy";
-        if (/(?:^|\.)speedtest\.net$/.test(host)) return "+proxy";
         if (/(?:^|\.)exness\.com$/.test(host)) return "+proxy";
         if (/^xvideos\.com$/.test(host)) return "+proxy";
         if (/(?:^|\.)xvideos\.com$/.test(host)) return "+proxy";
@@ -24,6 +25,6 @@ var FindProxyForURL = function(init, profiles) {
     "+proxy": function(url, host, scheme) {
         "use strict";
         if (/^127\.0\.0\.1$/.test(host) || /^::1$/.test(host) || /^localhost$/.test(host)) return "DIRECT";
-        return "PROXY 192.168.123.21:10067";
+        return "PROXY 192.168.123.21:9080";
     }
 });
